@@ -1,0 +1,32 @@
+--- Listar Clientes sem compra
+SELECT DISTINCT o.customer_id 
+FROM orders o
+LEFT JOIN order_items oi ON o.order_id = oi.order_id
+WHERE oi.order_id IS NULL;
+
+--- Listar Produtos que não tenham sido Comprados
+SELECT p.product_id, p.product_name
+FROM products p
+LEFT JOIN order_items oi on p.product_id = oi.product_id
+WHERE oi.product_id IS NULL;
+
+--- Listar os Produtos sem Estoque
+SELECT p.product_id, p.product_name
+FROM products p
+LEFT JOIN stocks s ON p.product_id = s.product_id
+WHERE s.quatity IS NULL OR s.quantity = 0;
+
+--- Agrupar a quantidade de vendas que uma determinada Marca por Loja
+SELECT st.store_name, b.brand_name, SUM(oi.quantity) AS total_quantity_sold
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+JOIN brands b ON p.brand_id = b.brand_id
+JOIN orders o ON oi.order_id = o.order_id
+JOIN stores st ON o.store_id = st.store_id
+GROUP BY st.store_name, b.brand_name;
+
+---Listar Funcionários que não estejam relacionados a um Pedido
+SELECT s.staff_id, s.first_name, s.last_name
+FROM staffs s
+LEFT JOIN orders o ON s.staff_id = o.staff_id
+WHRER o.order_id IS NULL;
