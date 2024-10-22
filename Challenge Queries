@@ -29,4 +29,4 @@ GROUP BY st.store_name, b.brand_name;
 SELECT s.staff_id, s.first_name, s.last_name
 FROM staffs s
 LEFT JOIN orders o ON s.staff_id = o.staff_id
-WHRER o.order_id IS NULL;
+WHERE o.order_id IS NULL;
